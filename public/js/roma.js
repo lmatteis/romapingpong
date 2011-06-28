@@ -88,11 +88,27 @@ var UserWidget = (function(){
 })();
 
 /**
+ * For Modal window and other things
+ */
+var ModalResize = function() {
+    var m = $(".modal"),
+        width = m.width();
+
+    m.css("left", ($(window).width() - width)/2 + "px");
+};
+
+$(window).resize(function(){
+    ModalResize();
+});
+
+/**
  * Main entry
  */
 $(function() {
+    ModalResize();
     User.login();
     UserWidget.init();
 });
+
 
 })();
