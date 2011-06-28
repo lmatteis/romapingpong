@@ -1,0 +1,352 @@
+/* ============================== */
+/* ! Layout for desktop version   */
+/* ============================== */
+
+/**
+ * Hacks
+ */
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+/**
+ * Primary styles
+ */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #fff;
+  color: #6d6d6d;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  font-size: 13px;
+}
+
+.js .hidden {
+  display: none;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+a img {
+  border: none;
+}
+
+.rounded {
+  -webkit-background-clip: padding-box;
+  border-radius: 3px;
+}
+
+a {
+  color: #3671a1;
+}
+
+p {
+/*  margin-bottom: 10px;*/
+}
+
+/**
+ * Titles
+ */
+h1, h2, h3, h4, h5, h6 {
+  color: #333;
+  font-family: sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+/** 
+ * Users 
+ */
+ul.users {
+    margin: 15px 0;
+    border-top: 1px solid #eee;
+}
+
+ul.users li {
+    border-bottom: 1px solid #eee;
+  text-shadow: 1px 1px white;
+    position: relative;
+    margin: 0;
+    padding: 10px 0;
+    padding-left: 10px;
+    line-height: 35px;
+    font-weight: bold;
+    list-style: none;
+    font-size: 14px;
+}
+ul.users li:hover {
+    background: #f4f4f4;
+}
+
+ul.users li img {
+    background-color: white;
+    float: left;
+    margin-right: 10px;
+    width: 36px;
+    height: 36px;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+    
+}
+
+ul.top li{
+    font-size: 12px;
+    padding: 1px 0;
+    padding-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+}
+ul.top li span{
+    font-weight: normal;
+}
+ul.top li span.right {
+    position: absolute;
+    right:0px;
+    text-shadow: 1px 1px #222;
+    font-size: 12px;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+background: #0B486B;
+color: #fff;
+line-height: 20px;
+padding:5px;
+
+}
+
+.example-right {
+position: relative;
+padding: 15px 15px;
+margin: 15px 0 0 0;
+  text-shadow: 1px 1px white;
+background: #e6e6e6;
+background: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#e6e6e6));
+background: -moz-linear-gradient(#f4f4f4, #e6e6e6);
+background: -o-linear-gradient(#f4f4f4, #e6e6e6);
+background: linear-gradient(#f4f4f4, #e6e6e6);
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+.example-right::after {
+content: "";
+position: absolute;
+bottom: -30px;
+left: 50px;
+border-width: 0 20px 30px 0px;
+border-style: solid;
+border-color: transparent #e6e6e6;
+display: block;
+width: 0;
+}
+.example-right + p {
+margin: 10px 0 2em 85px;
+font-style: italic;
+}
+
+/**
+ * horizontal color bar
+ */
+.bar {
+    width: 100%;
+    height: 10px;
+    overflow: hidden;
+    background: #e6e6e6;
+    margin-bottom: 30px;
+    padding-top: 30px;
+}
+.bar div { width: 20%; height: 100px; display: block; float: left; }
+.one { background: #CFF09E; }
+.two { background: #A8DBA8; }
+.three { background: #79BD9A; }
+.four { background: #3B8686; }
+.five { background: #0B486B; }
+
+/**
+ * Header
+ */
+header {
+    text-shadow: 1px 1px white;
+ background: #e6e6e6;
+background: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#e6e6e6));
+background: -moz-linear-gradient(#f4f4f4, #e6e6e6);
+background: -o-linear-gradient(#f4f4f4, #e6e6e6);
+background: linear-gradient(#f4f4f4, #e6e6e6);
+}
+.logo h1 {
+    font-family: 'Chewy', arial, serif;
+    color: #333;
+    font-size: 40px;
+    line-height: 40px;
+}
+.logo p {
+    margin-top: 10px;
+}
+.nav {
+    height: 30px;
+}
+
+hr {
+    margin-top: 30px;
+    border:0;
+    border-bottom: 1px dotted #CCC;
+}
+
+/**
+ * Button
+ */
+.button, .button:visited {
+    background: #444;
+    display: inline-block;
+    padding: 5px 10px 6px;
+    color: #fff;
+    text-decoration: none;
+    line-height: 1;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-box-shadow: 0 1px 3px #999;
+    -webkit-box-shadow: 0 1px 3px #999;
+    text-shadow: 0 -1px 1px #222;
+    border-bottom: 1px solid #222;
+    position: relative;
+    cursor: pointer;
+}
+.button:hover {
+    color: #ddd;
+}
+header .button {
+    margin: 40px 10px 0 0;
+}
+
+/**
+ * Footer
+ */
+footer {
+    text-shadow: 1px 1px white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+
+background: #e6e6e6;
+background: -webkit-gradient(linear, 0 0, 0 100%, from(#e6e6e6), to(#f4f4f4));
+background: -moz-linear-gradient(#e6e6e6, #e6e6e6);
+background: -o-linear-gradient(#e6e6e6, #f4f4f4);
+background: linear-gradient(#e6e6e6, #f4f4f4);
+}
+
+/**
+ * Calendar
+ */
+fieldset.jcalendar {
+    margin-top: 15px;
+}
+
+div.jcalendar-wrapper {
+    font-size: 11px;
+}
+
+div.jcalendar-selects {
+padding:.6em .4em;
+text-align:center;
+}
+
+div.jcalendar-selects select {
+}
+
+div.jcalendar table {
+background:#a1a5a9;
+color:#000;
+margin:.3em auto;
+width: 100%;
+border-spacing: 0;
+}
+
+div.jcalendar table th {
+background:#eee;
+padding: 4px;
+}
+
+div.jcalendar table td {
+background:#f9f9f9;
+}
+
+div.jcalendar table th.weekend {
+background:#ddd;
+}
+
+div.jcalendar table td.weekend {
+background:#e9e9e9;
+}
+
+div.jcalendar table td a {
+color:#333;
+text-shadow: 1px 1px white;
+display:block;
+line-height:1.7em;
+text-align:center;
+text-decoration:none;
+padding: 4px;
+}
+
+div.jcalendar table td.today a {
+background:#777;
+border-color:#aaa;
+color:#fff;
+text-shadow: 1px 1px #333;
+font-weight:700;
+}
+
+div.jcalendar table td a:hover,div.jcalendar table td a:focus,div.jcalendar table td a:active {
+background:#77b0d3;
+text-shadow: 1px 1px #333;
+color:#fff;
+}
+
+div.jcalendar table td a.selected {
+background:#0072b9;
+color:#fff;
+text-shadow: 1px 1px #333;
+}
+
+div.jcalendar-links {
+margin:.4em;
+text-align:center;
+}
+
+div.jcalendar-links a {
+padding:.2em .4em;
+}
+
+
+
+/* ============================= */
+/* ! Layout for mobile version   */
+/* ============================= */
+
+@media handheld, only screen and (max-width: 767px) {
+
+	body {
+		
+	}
+
+}
+
+
+/* ========================================== */
+/* ! Provide higher res assets for iPhone 4   */
+/* ========================================== */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) { 
+
+/*	.logo {
+		background: url(logo2x.jpg) no-repeat;
+		background-size: 212px 303px;
+	}*/
+
+}

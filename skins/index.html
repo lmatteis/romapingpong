@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>romaping</title> 
+
+	<!-- 1140px Grid styles for IE -->
+	<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
+	<!-- The 1140px Grid - http://cssgrid.net/ -->
+	<link rel="stylesheet" href="css/1140.css" type="text/css" media="screen" />
+	<!-- Your styles -->
+	<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" />
+    <!-- Dont care of font in development<link href='http://fonts.googleapis.com/css?family=Chewy&v1' rel='stylesheet' type='text/css'>-->
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jcalendar-source.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="js/roma.js"></script>
+    <script>
+    $(function() {
+        $('fieldset.jcalendar').jcalendar();
+    });
+    </script>
+    
+</head>
+<body>
+
+<header>
+    <div class="nav"></div>
+    <div class="container"> 
+        <div class="row"> 
+            <div class="sevencol"> 
+                <div class="logo">
+                    <h1>Roma Ping Pong</h1>
+                    <p>Siamo un gruppo di persone a cui piace giocare al Tennis da tavolo.</p>
+                    <p>Hai voglia di giocare con noi? <a href="#">Scopri chi siamo</a>!</p>
+                </div>
+            </div> 
+            <div class="fivecol last"> 
+                <a href="#" id="nav_tmpl" style="display: none;" class="button"></a>
+            </div> 
+        </div> 
+    </div> 
+</header>
+
+
+<div class="bar"> 		
+    <div class="one"></div> 		
+    <div class="two"></div> 		
+    <div class="three"></div> 		
+    <div class="four"></div> 		
+    <div class="five"></div> 	
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="threecol">
+        <h2>Utenti</h2>
+        <ul class="users" id="users">
+            <li style="display: none;">
+                <a href="#"><img src="avatar32.jpg" /></a>
+                <a href="#">Luca Matteis</a>
+            </li>
+        </ul>
+    </div>
+    <div class="threecol">
+        <h2>Chat</h2>
+        <blockquote class="example-right">
+		    <p>Design is directed toward human beings. To design is to solve human problems by identifying them and executing the best solution.</p>
+        </blockquote>
+        <p><a href="#">Dude</a> 2 ore fa</p>
+
+        <blockquote class="example-right">
+            <p>Design is directed toward human beings. To design is to solve human problems by identifying them and executing the best solution.</p>
+        </blockquote>
+        <p><a href="#">Dude</a> 3 ore fa</p>
+    </div>
+    <div class="threecol">
+        <h2>Quando giochiamo</h2>
+
+        <!-- calendar -->
+        <form><fieldset class="jcalendar">
+            <div class="jcalendar-wrapper">
+                <div class="jcalendar-selects">
+                    <span class="jcalendar-select-month"></span>
+                    <span class="jcalendar-select-year"></span>
+                </div>
+            </div>
+        </fieldset></form>
+    </div>
+    <div class="threecol last">
+        <h2>Classifica</h2>
+        <ul class="users top">
+            <li>
+                <span>1</span>
+                <a href="#">Luca Matteis</a>
+                <span class="right">185</span>
+            </li>
+            <li>
+                <span>2</span>
+                <a href="#">Luca Matteis</a>
+                <span class="right">73</span>
+            </li>
+            <li>
+                <span>3</span>
+                <a href="#">Luca Matteis</a>
+                <span class="right">78</span>
+            </li>
+            <li>
+                <span>4</span>
+                <a href="#">Luca Matteis</a>
+                <span class="right">24</span>
+            </li>
+            <li>
+                <span>5</span>
+                <a href="#">Luca Matteis</a>
+                <span class="right">24</span>
+            </li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+
+<hr />
+
+<footer>
+
+    <div class="container"> 
+        <div class="row"> 
+            <div class="sevencol"> 
+                
+
+    			 &copy; 2011 <a href="http://pseudocodice.com">Pseudo Codice</a>, all rights reserved
+                
+            </div> 
+            <div class="fivecol last"> 
+            </div> 
+        </div> 
+    </div> 
+
+
+</footer>
+
+</body>
+</html>
+
