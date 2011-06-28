@@ -11,7 +11,9 @@ var User = (function() {
                 name: "Profilo",
                 href: "#",
                 click: function(e) {
-                    console.log(User.user);
+                    // show Profile of logged in user
+                    Profile.show(User.user.userid);
+
                     e.preventDefault();
                     e.stopPropagation();
                 }
@@ -51,6 +53,35 @@ var User = (function() {
 
 
 /**
+ * Profile widget
+ */
+var Profile = (function() {
+    var tmpl = "#profile";
+
+    function replaceInfo(user) {
+        var $tmpl = $(tmpl);
+        $.each(user, function(key, value) {
+            $tmpl.find("." + key).html(value);
+        });
+        Modal.show(tmpl);
+    }
+
+    // makes an ajax call to find 
+    // the user information with this userid
+    function show(userid) {
+        Modal.loader();
+
+        var mockuser = User.user;
+        replaceInfo(mockuser);
+    }
+    
+    return {
+        show: show
+    };
+
+})();
+
+/**
  * UserWidget is the widget showing
  * all the users that have created an account
  * in cronological order
@@ -88,9 +119,49 @@ var UserWidget = (function(){
 })();
 
 /**
+ * Modal events
+ */
+var Modal = (function(){
+    var m = ".modal";
+    function loader() {
+        $(m + " .content").html("Caricamento...");
+        $(m).show();
+        ModalResize();
+    }
+
+    // takes the string selector of the template to show
+    function show(sel){
+        var clone = $(sel).clone();
+
+        $(m + " .content").html(clone);
+        $(m).show();
+        clone.show();
+
+        ModalResize();
+    }
+
+    // assign event for closing
+    function assignEvents() {
+        $(m + " .close").click(function(e) {
+            $(m).hide();    
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    }
+
+    return {
+        show: show,
+        assignEvents: assignEvents,
+        loader: loader
+    };
+})();
+/**
  * For Modal window and other things
  */
 var ModalResize = function() {
+    // only resize if modal is visible
+    if(!$(".modal").is(":visible")) return;
+
     var m = $(".modal"),
         width = m.width();
 
@@ -106,6 +177,7 @@ $(window).resize(function(){
  */
 $(function() {
     ModalResize();
+    Modal.assignEvents();
     User.login();
     UserWidget.init();
 });

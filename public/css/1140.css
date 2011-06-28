@@ -15,7 +15,7 @@ padding-right: 20px;
 .row {
 width: 100%;
 max-width: 1140px;
-min-width: 755px;
+/*min-width: 755px; XXX commented this out, hopefully it wont screw up*/
 margin: 0 auto;
 overflow: hidden;
 }
