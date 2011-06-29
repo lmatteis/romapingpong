@@ -37,6 +37,10 @@ a img {
   border: none;
 }
 
+input {
+    padding: 5px;
+}
+
 .rounded {
   -webkit-background-clip: padding-box;
   border-radius: 3px;
@@ -348,7 +352,6 @@ div.modal {
 }
 .modal .content {
     display: table;
-    width: 100%;
     padding: 10px;
     background: white;
     -webkit-border-radius: 4px;
@@ -369,10 +372,10 @@ div.modal {
 /**
  * Profile
  */
-#profile img.gravatar {
+.profile img.gravatar {
     vertical-align: middle;
-    width: 50px;
-    height: 50px;
+    width: 58px;
+    height: 58px;
 -webkit-border-radius: 3px;
 -moz-border-radius: 3px;
 border-radius: 3px;
@@ -388,19 +391,47 @@ border-radius: 3px;
     overflow: hidden;
     border-bottom: 1px solid #DDD;
 }
+.rule.clear {
+    border:0;
+}
 
 .vcard dl:first-child {
     margin-top: 0;
 }
 .vcard dl {
     margin: 5px 0 0 0;
-    font-size: 12px;
 }
 .vcard dl dt {
     margin: 0;
     float: left;
     width: 115px;
     color: #999;
+}
+.vcard dl dt,
+.vcard dl dd {
+    overflow: hidden;
+}
+
+
+/**
+ * Points
+ */
+.points {
+    background: #5481cb;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+}
+.points span {
+    font-size: 70%;
+}
+.points.big{
+    font-size: 20px;
 }
 
 
@@ -421,6 +452,13 @@ border-radius: 3px;
 
 }
 
+/**
+ * Edit mode
+ */
+.edit-mode {
+    float: right;
+    font-size: 12px;
+}
 
 /* ========================================== */
 /* ! Provide higher res assets for iPhone 4   */

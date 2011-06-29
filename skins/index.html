@@ -59,7 +59,7 @@
         <h2>Utenti</h2>
         <ul class="users" id="users">
             <li style="display: none;">
-                <a href="#"><img src="avatar32.jpg" /></a>
+                <a href="#"><img src="" /></a>
                 <a href="#">Luca Matteis</a>
             </li>
         </ul>
@@ -149,38 +149,51 @@
             Ciao
         </div>
         <a href="#" class="close">
-            <img src="/images/closelabel.png" title="close" class="close_image">
+            <img src="/images/closelabel.png" title="Chiudi" class="close_image">
         </a>
 
     </div>
 </div>
 
 <!-- Profile modal -->
-<div id="profile" style="display: none;">
-    <div class="container"> 
+<div id="profile_tmpl" style="display: none;">
+    <div class="container profile"> 
         <div class="row"> 
             <div class="sixcol"> 
+                <div class="edit-mode" style="display: none;">
+                    <a href="#">Modifica</a>
+                </div>
                 <div class="profile_header">
                     <h2>
-                        <a href="#"><img class="gravatar" src="avatar32.jpg"/></a>
-                        <a href="#" class="nickname"></a>
+                        <a href="#"><img class="gravatar" src=""/></a>
+                        <span class="nickname"></span>
                     </h2>
                 </div>
                 <div class="rule"></div>
                 <div class="vcard">
                     <dl>
-                        <dt>Nome</dt>
-                        <dd class="name">Luca Matteis</dd>
-                    </dl>
-                    <dl>
-                        <dt>Website/Blog</dt>
+                        <dt>Sito/Blog</dt>
                         <dd class="url"><a rel="nofollow me" href="http://pseudocodice.com" class="url">http://pseudocodice.com</a></dd>
                     </dl>
+                    <dl>
+                        <dt>Città</dt>
+                        <dd class="city">Roma</dd>
+                    </dl>
+                    <dl>
+                        <dt>Su di me</dt>
+                        <dd class="bio">I live in Wisconsin and I'm about 2 feet tall and I love playing videogames and poker and eat spaghetti sauce with fried chicken.</dd>
+                    </dl>
                 </div>
+                <div class="rule clear"></div>
                 
             </div> 
             <div class="sixcol last"> 
-                <h2 class="email"></h2>
+                <div class="points big">
+                    0 <span>punti</span>
+                </div>
+                <div class="rule clear"></div>
+                <h2>Tornei</h2>
+                <p>Quest'utente non ha partecipato ad alcun torneo</p>
             </div> 
         </div> 
     </div> 

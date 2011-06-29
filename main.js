@@ -78,7 +78,8 @@ apejs.urls = {
 
             users.forEach(function(user) {
                 ret.push({
-                    "name": ""+(user.getProperty("fullname") || user.getProperty("nickname"))
+                    "name": ""+(user.getProperty("fullname") || user.getProperty("nickname")),
+                    "email": ""+user.getProperty("email") // for gravatar ( XXX BAD, never show users email)
                 });
 
             });
