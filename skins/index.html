@@ -3,6 +3,8 @@
 <head>
     <title>romaping</title> 
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+
 	<!-- 1140px Grid styles for IE -->
 	<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
 	<!-- The 1140px Grid - http://cssgrid.net/ -->
@@ -158,8 +160,24 @@
     <div class="container"> 
         <div class="row"> 
             <div class="sixcol"> 
-                <h2 class="nickname"></h2>
-                <p>This is your personal page</p>
+                <div class="profile_header">
+                    <h2>
+                        <a href="#"><img class="gravatar" src="avatar32.jpg"/></a>
+                        <a href="#" class="nickname"></a>
+                    </h2>
+                </div>
+                <div class="rule"></div>
+                <div class="vcard">
+                    <dl>
+                        <dt>Nome</dt>
+                        <dd class="name">Luca Matteis</dd>
+                    </dl>
+                    <dl>
+                        <dt>Website/Blog</dt>
+                        <dd class="url"><a rel="nofollow me" href="http://pseudocodice.com" class="url">http://pseudocodice.com</a></dd>
+                    </dl>
+                </div>
+                
             </div> 
             <div class="sixcol last"> 
                 <h2 class="email"></h2>

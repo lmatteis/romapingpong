@@ -234,10 +234,10 @@ footer {
     padding-bottom: 30px;
 
 background: #e6e6e6;
-background: -webkit-gradient(linear, 0 0, 0 100%, from(#e6e6e6), to(#f4f4f4));
-background: -moz-linear-gradient(#e6e6e6, #e6e6e6);
-background: -o-linear-gradient(#e6e6e6, #f4f4f4);
-background: linear-gradient(#e6e6e6, #f4f4f4);
+background: -webkit-gradient(linear, 0 0, 0 100%, from(#e6e6e6), to(#fff));
+background: -moz-linear-gradient(#e6e6e6, #fff);
+background: -o-linear-gradient(#e6e6e6, #fff);
+background: linear-gradient(#e6e6e6, #fff);
 }
 
 /**
@@ -328,13 +328,13 @@ padding:.2em .4em;
  * Modal window
  */
 div.modal {
-    position: absolute;
+    position: fixed;
     top: 30px;
     left: 0;
     z-index: 100;
     text-align: left;
 
-    width: 50%;
+    width: 70%;
 }
 .modal .popup {
     position: relative;
@@ -365,6 +365,45 @@ div.modal {
 .modal .close img {
     opacity: 0.3;
 }
+
+/**
+ * Profile
+ */
+#profile img.gravatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+    margin-right: 10px;
+    
+}
+.profile_header {
+}
+.rule {
+    clear: both;
+    margin: 15px 0;
+    height: 0;
+    overflow: hidden;
+    border-bottom: 1px solid #DDD;
+}
+
+.vcard dl:first-child {
+    margin-top: 0;
+}
+.vcard dl {
+    margin: 5px 0 0 0;
+    font-size: 12px;
+}
+.vcard dl dt {
+    margin: 0;
+    float: left;
+    width: 115px;
+    color: #999;
+}
+
+
 
 /* ============================= */
 /* ! Layout for mobile version   */

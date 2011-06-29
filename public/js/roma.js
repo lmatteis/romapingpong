@@ -156,7 +156,7 @@ var Modal = (function(){
     };
 })();
 /**
- * For Modal window and other things
+ * For Modal when window is resized
  */
 var ModalResize = function() {
     // only resize if modal is visible

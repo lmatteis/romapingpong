@@ -66,7 +66,7 @@ apejs.urls = {
     },
     "/users":  {
         get: function(request, response) {
-            var tot = 5,
+            var tot = 10,
                 offset = 0;
             var users = googlestore.query("user")
                         .sort("created", "DESC")
