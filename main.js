@@ -90,8 +90,12 @@ apejs.urls = {
     },
     "/edit-user":  {
         post: function(request, response) {
+            require("./user.js");
+            // check user is logged in 
+            if(!user.currUser)  // not logged in
+                return res.sendError(res.SC_BAD_REQUEST, "Must be logged in");
+                
             var u = {
-                userid: request.getParameter("userid"),
                 bio: request.getParameter("bio"),
                 city: request.getParameter("city"),
                 email: request.getParameter("email"),
@@ -99,14 +103,14 @@ apejs.urls = {
                 url: request.getParameter("url")
             };
 
-            if(!u.userid || u.userid == "" || !u.email || u.email == "")
+            if(!u.email || u.email == "")
                 return print(response).json({
                     "error": "Devi completare l'email"
                 });
 
             try {
                 // find the entity with this userid
-                var userKey = googlestore.createKey("user", u.userid),
+                var userKey = googlestore.createKey("user", ""+user.currUser.getUserId()),
                     userEntity = googlestore.get(userKey);
 
                 googlestore.set(userEntity, u); 
@@ -114,7 +118,7 @@ apejs.urls = {
                 // use PUT to inser this data inside the entity
                 googlestore.put(userEntity);
             } catch(e) {
-                res.sendError(res.SC_BAD_REQUEST, "Something went wrong in the datastore");
+                return res.sendError(res.SC_BAD_REQUEST, "Something went wrong in the datastore");
             }
         }
     }
