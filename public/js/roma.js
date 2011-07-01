@@ -29,6 +29,13 @@ var Widget = (function() {
 })();
 
 /**
+ * Gravatar url
+ */
+function Gravatar(hash, size) {
+    return "http://www.gravatar.com/avatar/"+hash+".jpg?s="+size;
+}
+
+/**
  * UserWidget is the widget showing
  * all the users that have created an account
  * in cronological order
@@ -39,7 +46,8 @@ var UserWidget = (function(){
     self.loaderSel = "#users .loader";
 
     var url = "/users",
-        tmpl = "#users li", $tmpl;
+        tmpl = "#users li:first", $tmpl,
+        result = "#users .result";
 
     function appendUser(user) {
         var c = $tmpl.clone(),
@@ -49,14 +57,22 @@ var UserWidget = (function(){
 
         c.show();
 
-        img.attr("src", "avatar32.jpg");
-        $(name).text(user.name);
+        img.attr("src", Gravatar(user.gravatar, 36));
+        $(name).click(function(e) {
+            Profile.show(user.userid);
 
-        c.insertBefore($tmpl);
+            e.preventDefault();
+            e.stopPropagation();
+        }).text(user.name);
+
+        $(result).append(c);
     }
 
     self.ajax = function(success, error) {
         $tmpl = $(tmpl);
+        //clear template
+        $(result).html("");
+
         $.getJSON(url, function(json){
             $.each(json, function(i, v) {
                 appendUser(v);            
@@ -77,15 +93,16 @@ var Profile = (function() {
         loaderSel = "";
 
     function replaceInfo(user) {
-        var $tmpl = $(tmpl);
-        $tmpl.find("img.gravatar").attr("src", "avatar32.jpg");
+        // templates should be untouched, let's clone them
+        var $tmpl = $(tmpl).clone();
+        $tmpl.find("img.grav").attr("src", Gravatar(user.gravatar, 58));
         $.each(user, function(key, value) {
             var found = $tmpl.find("." + key);
             found.html(value);
 
             // check the node name
         });
-        Modal.show(tmpl);
+        Modal.show($tmpl);
     }
 
     // makes an ajax call to find 
@@ -98,6 +115,9 @@ var Profile = (function() {
             EditMode.display();
         } else { // run ajax
             Modal.loader();
+            $.getJSON("/users/"+userid, function(user) {
+                replaceInfo(user);
+            });
         }
     }
     
@@ -162,10 +182,12 @@ var EditMode = (function(){
 
         $.post("/edit-user", pars, function() {
             // refresh profile page
-
             User.login(function() {
                 Profile.show(User.user.userid);
             });
+
+            // also refresh UserWidget
+            UserWidget.load();
             
         }).error(function() {
 
@@ -173,16 +195,17 @@ var EditMode = (function(){
 
     }
     function display() {
-        $(".edit-mode").show();
+        $(".modal .edit-mode").show();
+        $(".modal .email").parent().show();
         // edit link
-        $(".edit-mode a.edit").click(function(e) {
+        $(".modal .edit-mode a.edit").click(function(e) {
             on();
             e.preventDefault();
             e.stopPropagation();
         }).show();
 
         // save link
-        $(".edit-mode a.save").click(function(e) {
+        $(".modal .edit-mode a.save").click(function(e) {
             save();
             e.preventDefault();
             e.stopPropagation();
@@ -210,16 +233,15 @@ var Modal = (function(){
         ModalResize();
     }
 
-    // takes the string selector of the template to show
-    function show(sel){
-        // clone the contents of the selector,
-        // not the whole selector otherwise it will clone the "id"
-        // which should be unique 
-        var clone = $(sel).children(":first").clone();
+    // template to show
+    function show(jel){
+        // get the contents of the template
+        var contents = jel.children(":first");
 
-        $(m + " .content").html(clone);
+        $(m + " .content").html(contents);
         $(m).show();
-        clone.show();
+
+        contents.show();
 
         ModalResize();
     }
