@@ -37,8 +37,8 @@
                     <p>Hai voglia di giocare con noi? <a href="#">Scopri chi siamo</a>!</p>
                 </div>
             </div> 
-            <div class="fivecol last"> 
-                <a href="#" id="nav_tmpl" style="display: none;" class="button"></a>
+            <div class="fivecol last" id="nav_tmpl"> 
+                <a href="#" style="display: none;" class="button"></a>
             </div> 
         </div> 
     </div> 
@@ -58,6 +58,7 @@
     <div class="threecol">
         <h2>Utenti</h2>
         <ul class="users" id="users">
+            <div class="loader" style="display: none">Loading...</div>
             <li style="display: none;">
                 <a href="#"><img src="" /></a>
                 <a href="#">Luca Matteis</a>
@@ -161,16 +162,21 @@
         <div class="row"> 
             <div class="sixcol"> 
                 <div class="edit-mode" style="display: none;">
-                    <a href="#">Modifica</a>
+                    <a href="#" class="save" style="display: none">Salva</a>
+                    <a href="#" class="edit">Modifica</a>
                 </div>
                 <div class="profile_header">
                     <h2>
                         <a href="#"><img class="gravatar" src=""/></a>
-                        <span class="nickname"></span>
+                        <span class="name" placeholder="nome e cognome"></span>
                     </h2>
                 </div>
                 <div class="rule"></div>
                 <div class="vcard">
+                    <dl>
+                        <dt>Email</dt>
+                        <dd class="email"></dd>
+                    </dl>
                     <dl>
                         <dt>Sito/Blog</dt>
                         <dd class="url"><a rel="nofollow me" href="http://pseudocodice.com" class="url">http://pseudocodice.com</a></dd>

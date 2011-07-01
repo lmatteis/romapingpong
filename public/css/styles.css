@@ -357,6 +357,7 @@ div.modal {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+    width: 100%;
 }
 .modal .close {
     position: absolute;
@@ -381,6 +382,10 @@ div.modal {
 border-radius: 3px;
     margin-right: 10px;
     
+}
+.profile textarea {
+    height: 100px;
+    width: 250px;
 }
 .profile_header {
 }

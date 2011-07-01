@@ -36,15 +36,16 @@ apejs.urls = {
 
                 if(userEntity) { // user exists as an entity
                     // add extra info directly from the db
-                    u.dunno = userEntity.getProperty("dunno");
+                    u.name = userEntity.getProperty("name") ? ""+userEntity.getProperty("name") : "";
+                    u.url = userEntity.getProperty("url") ? ""+userEntity.getProperty("url") : "";
+                    u.city = userEntity.getProperty("city") ? ""+userEntity.getProperty("city") : "";
+                    u.bio = userEntity.getProperty("bio") ? ""+userEntity.getProperty("bio") : "";
                     
 
                 } else { // create it as an entity, with key the userid
                     u.created = new java.util.Date();
                     userEntity = googlestore.entity("user", u.userid, u);
                     googlestore.put(userEntity);
-
-                    u.firsttime = true; // so the UI knows it's first time
 
                 }
                 u.created = false; //JSON.stringify doesn't like Java types
@@ -85,6 +86,36 @@ apejs.urls = {
             });
 
             print(response).json(ret);
+        }
+    },
+    "/edit-user":  {
+        post: function(request, response) {
+            var u = {
+                userid: request.getParameter("userid"),
+                bio: request.getParameter("bio"),
+                city: request.getParameter("city"),
+                email: request.getParameter("email"),
+                name: request.getParameter("name"),
+                url: request.getParameter("url")
+            };
+
+            if(!u.userid || u.userid == "" || !u.email || u.email == "")
+                return print(response).json({
+                    "error": "Devi completare l'email"
+                });
+
+            try {
+                // find the entity with this userid
+                var userKey = googlestore.createKey("user", u.userid),
+                    userEntity = googlestore.get(userKey);
+
+                googlestore.set(userEntity, u); 
+
+                // use PUT to inser this data inside the entity
+                googlestore.put(userEntity);
+            } catch(e) {
+                res.sendError(res.SC_BAD_REQUEST, "Something went wrong in the datastore");
+            }
         }
     }
 };
