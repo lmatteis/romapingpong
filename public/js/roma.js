@@ -1,3 +1,57 @@
+/*
+ * Auto-growing textareas; technique ripped from Facebook
+ */
+(function($) {
+    $.fn.autogrow = function(options) {
+        
+        this.filter('textarea').each(function() {
+            
+            var $this       = $(this),
+                minHeight   = $this.height(),
+                lineHeight  = $this.css('lineHeight');
+            
+            var shadow = $('<div></div>').css({
+                position:   'absolute',
+                top:        -10000,
+                left:       -10000,
+                width:      $(this).width() - parseInt($this.css('paddingLeft')) - parseInt($this.css('paddingRight')),
+                fontSize:   $this.css('fontSize'),
+                fontFamily: $this.css('fontFamily'),
+                lineHeight: $this.css('lineHeight'),
+                resize:     'none'
+            }).appendTo(document.body);
+            
+            var update = function() {
+    
+                var times = function(string, number) {
+                    for (var i = 0, r = ''; i < number; i ++) r += string;
+                    return r;
+                };
+                
+                var val = this.value.replace(/</g, '&lt;')
+                                    .replace(/>/g, '&gt;')
+                                    .replace(/&/g, '&amp;')
+                                    .replace(/\n$/, '<br/>&nbsp;')
+                                    .replace(/\n/g, '<br/>')
+                                    .replace(/ {2,}/g, function(space) { return times('&nbsp;', space.length -1) + ' ' });
+                
+                shadow.html(val);
+                $(this).css('height', Math.max(shadow.height(), minHeight));
+            
+            }
+            
+            $(this).change(update).keyup(update).keydown(update);
+            
+            update.apply(this);
+            
+        });
+        
+        return this;
+        
+    }
+    
+})(jQuery);
+
 /**
  * From Crockford
  */
@@ -11,20 +65,32 @@ function object(o) {
  * Widget class
  */
 var Widget = (function() {
+    function loader(t) {
+        var $loader = $(this.loaderSel);
+        if(t)
+            $loader.show();
+        else
+            $loader.hide();
+
+        return $loader;
+    }
+
     // mostly takes care of showing the loading text
     // and/or error for the child widget 
     function load() {
-        var $loader = $(this.loaderSel);
-        $loader.show();
+        this.loader(true);
+        var that = this;
         // run the ajax method
         this.ajax(function() {
-            $loader.hide(); 
+            that.loader(false);
         }, function() {
-            $loader.html("Something went wrong with the request");
+            loader(true).html("Error");
         });
     }
+
     return {
-        load: load 
+        load: load,
+        loader: loader
     };
 })();
 
@@ -32,6 +98,7 @@ var Widget = (function() {
  * Gravatar url
  */
 function Gravatar(hash, size) {
+    return "avatar32.jpg";
     return "http://www.gravatar.com/avatar/"+hash+".jpg?s="+size;
 }
 
@@ -85,6 +152,88 @@ var UserWidget = (function(){
     return self;
 })();
 
+var ChatWidget = (function(){
+    var self = object(Widget); // inherit from Widget
+
+    self.loaderSel = ".chat_widget .loader";
+
+
+    function addChat(msg) {
+        var pars = {
+            userid: User.user.userid,
+            message: msg
+        };
+        
+        self.loader(true);
+
+        $.post("/add-chat", pars, function() {
+            self.loader(false);
+            $(".chat textarea").val("").removeAttr("disabled");
+            ChatWidget.load();
+        }).error(function(e) {
+        });
+         
+    }
+    function assignEvents() {
+        var $textarea = $(".chat textarea");
+
+        $textarea.autogrow();
+
+        $textarea.keydown(function(e) {
+            if(e.keyCode == 13) { // enter
+                $textarea.attr("disabled", "disabled");
+                $textarea.blur();
+
+                addChat($textarea.val());
+
+                e.preventDefault();
+            }
+        });
+    }
+
+    self.chatOn = function() {
+        $(".chat").show();
+        assignEvents();
+    };
+
+    var url = "/chats",
+        $tmpl, $result;
+    function appendChat(chat) {
+        var clone = $tmpl.clone();
+
+        clone.show();
+
+        clone.find(".message").html(chat.message);
+        clone.find("a.user").click(function(e) {
+
+            Profile.show(chat.userid);
+              
+            e.preventDefault();
+            e.stopPropagation();
+        }).html(chat.user);
+        
+        $result.append(clone);
+
+    }
+    self.ajax = function(success, error) {
+        $result = $(".chat_widget .result");
+        $tmpl = $(".chat_widget .chat_tmpl:first");
+
+        //clear template
+        $result.html("");
+
+        $.getJSON(url, function(json){
+            $.each(json, function(i, v) {
+                appendChat(v);            
+            });
+
+            success();
+        }).error(error);
+    }
+
+    return self;
+})();
+
 /**
  * Profile functionalities
  */
@@ -120,9 +269,17 @@ var Profile = (function() {
             });
         }
     }
+
+    function loader(t) {
+        if(t)
+            $(".modal .loader").show();
+        else
+            $(".modal .loader").hide();
+    }
     
     return {
-        show: show
+        show: show,
+        loader: loader
     };
 
 })();
@@ -147,6 +304,8 @@ var EditMode = (function(){
         if(editLink.text() == "Modifica") {
             $.each(User.user, function(key, value) {
                 var found = cont.find("." + key);
+
+                if(value == "null") value = "";
                 // and after it put an input/textarea
                 if(key == "bio") { // for bio show textearea
                     var textarea = $("<textarea name='"+key+"'>" + value + "</textarea>");
@@ -180,6 +339,7 @@ var EditMode = (function(){
             pars[$this.attr("name")] =  $this.val();
         });
 
+        Profile.loader(true);
         $.post("/edit-user", pars, function() {
             // refresh profile page
             User.login(function() {
@@ -188,9 +348,10 @@ var EditMode = (function(){
 
             // also refresh UserWidget
             UserWidget.load();
-            
-        }).error(function() {
 
+            Profile.loader(false);
+        }).error(function(e) {
+            Profile.loader(e);
         });
 
     }
@@ -332,6 +493,13 @@ var User = (function() {
 })();
 
 /**
+ * Disable caching for all AJAX responses
+ */
+$.ajaxSetup ({
+    cache: false
+});
+
+/**
  * Resize window
  */
 $(window).resize(function(){
@@ -344,8 +512,11 @@ $(window).resize(function(){
 $(function() {
     ModalResize();
     Modal.assignEvents();
-    User.login();
+    User.login(function() {
+        ChatWidget.chatOn(); 
+    });
 
     UserWidget.load();
+    ChatWidget.load();
 });
 

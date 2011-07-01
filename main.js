@@ -86,7 +86,7 @@ apejs.urls = {
             users.forEach(function(user) {
                 ret.push({
                     "userid": ""+user.getProperty("userid"),
-                    "name": ""+(user.getProperty("name") || user.getProperty("nickname")),
+                    "name": ""+(user.getProperty("name") || userwidget.hideEmail(user.getProperty("nickname"))),
                     "gravatar": ""+userwidget.md5((user.getProperty("email")).trim().toLowerCase()) // show trimmed, lowercase and md5 email
                 });
 
@@ -107,7 +107,7 @@ apejs.urls = {
 
                 var u = {};
                 u.gravatar = userEntity.getProperty("email") ? ""+userwidget.md5(userEntity.getProperty("email").trim().toLowerCase()) : "null";
-                u.name = ""+userEntity.getProperty("name");
+                u.name = ""+(userEntity.getProperty("name") || userwidget.hideEmail(userEntity.getProperty("nickname")));
                 u.url = ""+userEntity.getProperty("url");
                 u.city = ""+userEntity.getProperty("city");
                 u.bio = ""+userEntity.getProperty("bio");
@@ -137,7 +137,7 @@ apejs.urls = {
                 url: request.getParameter("url")
             };
 
-            if(!u.email || u.email == "" || !userwidget.validateEmail(u.email))
+            if(!u.name || u.name == "" || !u.email || u.email == "" || !userwidget.validateEmail(u.email))
                 return response.sendError(response.SC_BAD_REQUEST, "Email sbagliata");
 
             try {
@@ -152,6 +152,63 @@ apejs.urls = {
             } catch(e) {
                 return response.sendError(response.SC_BAD_REQUEST, "Qualcosa e' andato storto. Riprova");
             }
+        }
+    },
+    "/chats":  {
+        get: function(request, response) {
+            require("./userwidget.js");
+
+            var tot = 10,
+                offset = 0;
+            var chats = googlestore.query("chat")
+                        .sort("created", "DESC")
+                        .limit(tot)
+                        .offset(offset)
+                        .fetch();
+
+            var ret = []; // the array returned
+
+            chats.forEach(function(chat) {
+                // given the userid
+                // get this user data
+                var userKey = googlestore.createKey("user", chat.getProperty("userid")),
+                    userEntity = googlestore.get(userKey);
+
+                ret.push({
+                    "userid": ""+chat.getProperty("userid"),
+                    "message": ""+chat.getProperty("message"),
+                    "user": ""+(userEntity.getProperty("name") || userwidget.hideEmail(userEntity.getProperty("nickname")))
+                });
+
+            });
+
+            print(response).json(ret);
+
+        }
+    },
+    "/add-chat":  {
+        post: function(request, response) {
+            require("./user.js");
+            if(!user.currUser)  // not logged in
+                return response.sendError(response.SC_BAD_REQUEST, "Devi loggarti");
+
+            var userid = request.getParameter("userid"),
+                message = request.getParameter("message");
+
+            if(!userid || userid == "" || !message || message == "")
+                return response.sendError(response.SC_BAD_REQUEST, "Manca qualche parametro");
+
+            // be sure we are this userid
+            if(""+user.currUser.getUserId() != userid)
+                return response.sendError(response.SC_BAD_REQUEST, "Non possiamo aggiungere per un altro utente");
+
+            var chatEntity = googlestore.entity("chat", {
+                "created": new java.util.Date(),
+                "userid": userid,
+                "message": message
+            });
+            googlestore.put(chatEntity);
+
         }
     }
 };

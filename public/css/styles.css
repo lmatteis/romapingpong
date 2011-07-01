@@ -126,6 +126,7 @@ padding:5px;
 }
 
 .example-right {
+z-index: -1;
 position: relative;
 padding: 15px 15px;
 margin: 15px 0 0 0;
@@ -371,6 +372,27 @@ div.modal {
 }
 
 /**
+ * Loader
+ */
+.loader {
+    background:#5481CB;
+    color: white;
+    text-shadow: 1px 1px #444;
+    padding: 5px;
+    width: 70px;
+    margin: auto;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top:0;
+    margin-left: -35px;
+    font-size: 11px;
+}
+.sixcol, .threecol {
+    position: relative;
+}
+
+/**
  * Profile
  */
 .profile img.grav {
@@ -439,6 +461,39 @@ border-radius: 5px;
     font-size: 20px;
 }
 
+/**
+ * Edit mode
+ */
+.edit-mode {
+    float: right;
+    font-size: 12px;
+}
+
+/**
+ * Chat
+ */
+.chat {
+    height: 31px;
+    overflow: visible;
+    margin-top: 15px;
+}
+.chat_inner {
+    padding: 5px;
+    border: 1px solid #B4BBCD;
+    z-index: 10;
+    background-color: #fff;
+}
+.chat textarea {
+    height: 16px;
+    resize: none;
+    border: 0;
+    outline: 0;
+    background-color: #fff;
+    color: #777777;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 13px;
+    width: 100%;
+}
 
 
 /* ============================= */
@@ -457,13 +512,6 @@ border-radius: 5px;
 
 }
 
-/**
- * Edit mode
- */
-.edit-mode {
-    float: right;
-    font-size: 12px;
-}
 
 /* ========================================== */
 /* ! Provide higher res assets for iPhone 4   */

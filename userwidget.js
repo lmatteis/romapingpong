@@ -7,7 +7,7 @@ var userwidget = {
          return email.match(re);
     },
     hideEmail: function(email) {
-
+        return email.split("@")[0];
     },
 
     // makes a md5 string out of a string

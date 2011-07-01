@@ -58,7 +58,7 @@
     <div class="threecol">
         <h2>Utenti</h2>
         <ul class="users" id="users">
-            <div class="loader" style="display: none">Loading...</div>
+            <div class="loader rounded" style="display: none">Loading...</div>
             <li style="display: none;">
                 <a href="#"><img src="" /></a>
                 <a href="#">Luca Matteis</a>
@@ -66,17 +66,23 @@
             <div class="result"></div>
         </ul>
     </div>
-    <div class="threecol">
+    <div class="threecol chat_widget">
         <h2>Chat</h2>
-        <blockquote class="example-right">
-		    <p>Design is directed toward human beings. To design is to solve human problems by identifying them and executing the best solution.</p>
-        </blockquote>
-        <p><a href="#">Dude</a> 2 ore fa</p>
+        <div class="loader rounded" style="display: none">Loading...</div>
+        <div class="chat" style="display: none">
+            <div class="chat_inner">
+                <textarea></textarea>
+            </div>
+        </div>
+        <div class="chat_tmpl" style="display: none">
+            <blockquote class="example-right">
+                <p class="message">Design is directed toward human beings. To design is to solve human problems by identifying them and executing the best solution.</p>
+            </blockquote>
+            <p><a href="#" class="user">Dude</a> <span class="time">2</span> ore fa</p>
+        </div>
 
-        <blockquote class="example-right">
-            <p>Design is directed toward human beings. To design is to solve human problems by identifying them and executing the best solution.</p>
-        </blockquote>
-        <p><a href="#">Dude</a> 3 ore fa</p>
+        <div class="result"></div>
+
     </div>
     <div class="threecol">
         <h2>Quando giochiamo</h2>
@@ -162,6 +168,7 @@
     <div class="container profile"> 
         <div class="row"> 
             <div class="sixcol"> 
+                <div class="loader rounded" style="display: none;">Loading...</div>
                 <div class="edit-mode" style="display: none;">
                     <a href="#" class="save" style="display: none">Salva</a>
                     <a href="#" class="edit">Modifica</a>
