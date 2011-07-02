@@ -98,7 +98,7 @@ var Widget = (function() {
  * Gravatar url
  */
 function Gravatar(hash, size) {
-    return "avatar32.jpg";
+    //return "avatar32.jpg";
     return "http://www.gravatar.com/avatar/"+hash+".jpg?s="+size;
 }
 
@@ -130,7 +130,7 @@ var UserWidget = (function(){
 
             e.preventDefault();
             e.stopPropagation();
-        }).text(user.name);
+        }).text(user.name || user.email);
 
         $(result).append(c);
     }
@@ -203,6 +203,17 @@ var ChatWidget = (function(){
 
         clone.show();
 
+        // check the size of message
+        if(chat.message.length > 100) {
+            clone.find(".message").css("font-size", "11px"); 
+        } 
+        if(chat.message.length > 200) {
+            clone.find(".message").css("font-size", "10px"); 
+        }
+        if(chat.message.length > 300) {
+            clone.find(".message").css("font-size", "9px"); 
+        }
+
         clone.find(".message").html(chat.message);
         clone.find("a.user").click(function(e) {
 
@@ -245,12 +256,14 @@ var Profile = (function() {
         // templates should be untouched, let's clone them
         var $tmpl = $(tmpl).clone();
         $tmpl.find("img.grav").attr("src", Gravatar(user.gravatar, 58));
-        $.each(user, function(key, value) {
-            var found = $tmpl.find("." + key);
-            found.html(value);
+        $tmpl.find(".name").html(user.name || user.email);
+        $tmpl.find(".email").html(user.email);
 
-            // check the node name
-        });
+        $tmpl.find(".url a").attr("href", user.url).html(user.url);
+
+        $tmpl.find(".city").html(user.city);
+        $tmpl.find(".bio").html(user.bio);
+
         Modal.show($tmpl);
     }
 
@@ -348,6 +361,7 @@ var EditMode = (function(){
 
             // also refresh UserWidget
             UserWidget.load();
+            ChatWidget.load();
 
             Profile.loader(false);
         }).error(function(e) {

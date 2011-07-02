@@ -126,7 +126,6 @@ padding:5px;
 }
 
 .example-right {
-z-index: -1;
 position: relative;
 padding: 15px 15px;
 margin: 15px 0 0 0;
@@ -493,6 +492,9 @@ border-radius: 5px;
     font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
     font-size: 13px;
     width: 100%;
+}
+.chat_widget .result * {
+    z-index: -1;
 }
 
 

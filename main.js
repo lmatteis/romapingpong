@@ -12,7 +12,9 @@ var print = function(response) {
 apejs.urls = {
     "/":  {
         get: function(request, response) {
-            var html = render("./skins/index.html");
+            var version = "0.1";
+            var html = render("./skins/index.html")
+                        .replace(/{{VERSION}}/g, version);
             response.getWriter().println(html);
         }
     },
@@ -20,6 +22,7 @@ apejs.urls = {
         get: function(request, response) {
             require("./user.js");
             require("./userwidget.js");
+            require("./util.js");
 
             if(user.currUser) { // logged in
                 var u = {
@@ -49,6 +52,10 @@ apejs.urls = {
                 } else { // create it as an entity, with key the userid
                     u.created = new java.util.Date();
                     userEntity = googlestore.entity("user", u.userid, u);
+                    // let's create the "normalized" property
+                    googlestore.set(userEntity, {
+                        "normalized": util.normalize(u)
+                    });
                     googlestore.put(userEntity);
 
                 }
@@ -71,7 +78,7 @@ apejs.urls = {
     },
     "/users":  {
         get: function(request, response) {
-            require("./userwidget.js");
+            require("./UserModel.js");
 
             var tot = 10,
                 offset = 0;
@@ -84,11 +91,7 @@ apejs.urls = {
             var ret = []; // the array returned
 
             users.forEach(function(user) {
-                ret.push({
-                    "userid": ""+user.getProperty("userid"),
-                    "name": ""+(user.getProperty("name") || userwidget.hideEmail(user.getProperty("nickname"))),
-                    "gravatar": ""+userwidget.md5((user.getProperty("email")).trim().toLowerCase()) // show trimmed, lowercase and md5 email
-                });
+                ret.push(User(user));
 
             });
 
@@ -97,7 +100,7 @@ apejs.urls = {
     },
     "/users/([a-zA-Z0-9_]+)" : {
         get: function(request, response, matches) {
-            require("./userwidget.js");
+            require("./UserModel.js");
             var userid = matches[1];
 
             try {
@@ -105,14 +108,7 @@ apejs.urls = {
                 var userKey = googlestore.createKey("user", userid),
                     userEntity = googlestore.get(userKey);
 
-                var u = {};
-                u.gravatar = userEntity.getProperty("email") ? ""+userwidget.md5(userEntity.getProperty("email").trim().toLowerCase()) : "null";
-                u.name = ""+(userEntity.getProperty("name") || userwidget.hideEmail(userEntity.getProperty("nickname")));
-                u.url = ""+userEntity.getProperty("url");
-                u.city = ""+userEntity.getProperty("city");
-                u.bio = ""+userEntity.getProperty("bio");
-
-                print(response).json(u);
+                print(response).json(User(userEntity));
             } catch (e) {
                 response.sendError(response.SC_BAD_REQUEST, e);
             }
@@ -124,6 +120,7 @@ apejs.urls = {
         post: function(request, response) {
             require("./user.js");
             require("./userwidget.js");
+            require("./util.js");
 
             // check user is logged in 
             if(!user.currUser)  // not logged in
@@ -147,6 +144,11 @@ apejs.urls = {
 
                 googlestore.set(userEntity, u); 
 
+                // let's create the "normalized" property
+                googlestore.set(userEntity, {
+                    "normalized": util.normalize(u)
+                });
+
                 // use PUT to update this data inside the entity
                 googlestore.put(userEntity);
             } catch(e) {
@@ -158,7 +160,7 @@ apejs.urls = {
         get: function(request, response) {
             require("./userwidget.js");
 
-            var tot = 10,
+            var tot = 5,
                 offset = 0;
             var chats = googlestore.query("chat")
                         .sort("created", "DESC")
@@ -176,7 +178,7 @@ apejs.urls = {
 
                 ret.push({
                     "userid": ""+chat.getProperty("userid"),
-                    "message": ""+chat.getProperty("message"),
+                    "message": ""+chat.getProperty("message").getValue(),
                     "user": ""+(userEntity.getProperty("name") || userwidget.hideEmail(userEntity.getProperty("nickname")))
                 });
 
@@ -205,10 +207,32 @@ apejs.urls = {
             var chatEntity = googlestore.entity("chat", {
                 "created": new java.util.Date(),
                 "userid": userid,
-                "message": message
+                "message": new Text(message)
             });
             googlestore.put(chatEntity);
 
+        }
+    },
+    "/user-search":  {
+        get: function(request, response) {
+            require("./UserModel.js");
+
+            var q = request.getParameter("q");
+            var ret = [];
+
+            if(!q || q == "") return print(response).json(ret);
+
+            q = q.toLowerCase();
+
+            var users = googlestore.query("user")
+                            .filter("normalized", ">=", q)
+                            .filter("normalized", "<", q + "\ufffd")
+                            .fetch();
+            users.forEach(function(u) {
+                ret.push(User(u));
+            });
+            
+            return print(response).json(ret);
         }
     }
 };
